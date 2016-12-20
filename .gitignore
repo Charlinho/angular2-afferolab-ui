@@ -1,2 +1,5 @@
-affero-ui.iml
+angular2-afferolab-ui.iml
 node_modules
+*.idea
+README.md
+package.json
