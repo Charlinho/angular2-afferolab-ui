@@ -34,8 +34,8 @@ export class GridProvider<MODEL> {
               protected mapper: Mapper,
               protected params: URLSearchParams,
               protected _headers: Array<string>,
-              protected _editPermissions: Array<string> = [],
-              protected _removePermissions: Array<string> = [],
+              protected _hasEditPermissions: boolean = true,
+              protected _hasRemovePermissions: boolean = true,
               protected _readOnly: boolean) {}
 
 
@@ -47,12 +47,12 @@ export class GridProvider<MODEL> {
     return this.serverApi.getResourceUrl();
   }
 
-  get editPermissions() {
-    return this._editPermissions;
+  get hasEditPermissions() {
+    return this._hasEditPermissions;
   }
 
-  get removePermissions() {
-    return this._removePermissions;
+  get hasRemovePermissions() {
+    return this._hasRemovePermissions;
   }
 
   get readOnly() {
@@ -93,9 +93,9 @@ class GridProviderBuilder {
 
   private _headers: Array<string>;
 
-  private _editPermissions: Array<string>;
+  private _hasEditPermissions: boolean;
 
-  private _removePermissions: Array<string>;
+  private _hasRemovePermissions: boolean;
 
   private _readOnly: boolean = false;
 
@@ -130,13 +130,13 @@ class GridProviderBuilder {
     return this;
   }
 
-  editPermissions(editPermissions: Array<string>): GridProviderBuilder {
-    this._editPermissions = editPermissions;
+  hasEditPermissions(editPermissions: boolean): GridProviderBuilder {
+    this._hasEditPermissions = editPermissions;
     return this;
   }
 
-  removePermissions(removePermissions: Array<string>): GridProviderBuilder {
-    this._removePermissions = removePermissions;
+  hasRemovePermissions(removePermissions: boolean): GridProviderBuilder {
+    this._hasRemovePermissions = removePermissions;
     return this;
   }
 
@@ -148,7 +148,7 @@ class GridProviderBuilder {
 
   build(): GridProvider<MODEL> {
     let params: URLSearchParams = this._params || new PageRequest().buildParams();
-    return new GridProvider(this._service, this._mapper, params, this._headers, this._editPermissions, this._removePermissions, this._readOnly);
+    return new GridProvider(this._service, this._mapper, params, this._headers, this._hasEditPermissions, this._hasRemovePermissions, this._readOnly);
   }
 }
 
