@@ -42,6 +42,9 @@ var SelectComponent = (function () {
         core_1.Input('key')
     ], SelectComponent.prototype, "key");
     __decorate([
+        core_1.Input('disabledSelect')
+    ], SelectComponent.prototype, "disabledSelect");
+    __decorate([
         core_1.Output('onChange')
     ], SelectComponent.prototype, "onChange");
     __decorate([
@@ -51,7 +54,7 @@ var SelectComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'select-box',
-            template: "<select id=\"{{ id }}\" class=\"browser-default\" [(ngModel)]=\"modelValue\" (ngModelChange)=\"change($event)\">\n                <option *ngFor=\"let option of options\" [value]=\"option[key]\">{{ option.name }}</option>\n              </select>"
+            template: "<select id=\"{{ id }}\" class=\"browser-default\" [(ngModel)]=\"modelValue\" (ngModelChange)=\"change($event)\" [disabled]=\"disabledSelect\">\n                <option *ngFor=\"let option of options\" [value]=\"option[key]\">{{ option.name }}</option>\n              </select>"
         })
     ], SelectComponent);
     return SelectComponent;

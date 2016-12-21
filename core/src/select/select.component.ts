@@ -4,7 +4,7 @@ import { _ } from 'underscore';
 @Component({
   moduleId: module.id,
   selector: 'select-box',
-  template: `<select id="{{ id }}" class="browser-default" [(ngModel)]="modelValue" (ngModelChange)="change($event)">
+  template: `<select id="{{ id }}" class="browser-default" [(ngModel)]="modelValue" (ngModelChange)="change($event)" [disabled]="disabledSelect">
                 <option *ngFor="let option of options" [value]="option[key]">{{ option.name }}</option>
               </select>`
 })
@@ -20,6 +20,9 @@ export class SelectComponent implements OnChanges {
 
   @Input('key')
   key: any;
+
+  @Input('disabledSelect')
+  disabledSelect: boolean;
 
   @Output('onChange')
   onChange: EventEmitter<any> = new EventEmitter<any>();
