@@ -1,3 +1,3 @@
-export { GridComponent } from './src/grid.component';
-export { GridModule } from './src/grid.module';
-export { GridProvider } from './src/grid.provider';
+export { GridComponent } from './grid.component';
+export { GridModule } from './grid.module';
+export { GridProvider } from './grid.provider';
