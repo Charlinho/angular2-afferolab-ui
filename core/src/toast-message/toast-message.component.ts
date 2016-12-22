@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { Materialize } from 'materialize';
 
 @Component({
   moduleId: module.id,

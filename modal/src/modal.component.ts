@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 
+
 @Component({
   selector: 'modal',
   template: `

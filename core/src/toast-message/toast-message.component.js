@@ -6,12 +6,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var core_1 = require('@angular/core');
+var materialize_1 = require('materialize');
 var ToastMessageComponent = (function () {
     function ToastMessageComponent() {
     }
     ToastMessageComponent.prototype.ngOnChanges = function () {
         if (this.message) {
-            Materialize.toast(this.message, 10000);
+            materialize_1.Materialize.toast(this.message, 10000);
         }
     };
     __decorate([

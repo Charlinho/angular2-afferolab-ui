@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var underscore_1 = require('underscore');
+var jquery_1 = require('jquery');
 var SelectComponent = (function () {
     function SelectComponent() {
         this.id = underscore_1._.uniqueId();
@@ -23,11 +24,11 @@ var SelectComponent = (function () {
         if (changes.options && changes.options.currentValue) {
             setTimeout(function () {
                 if (underscore_1._.isUndefined(_this.modelValue)) {
-                    $('#' + _this.id + ' option:first').attr('selected', 'selected');
-                    _this.change($('#' + _this.id + ' option:first').val());
+                    jquery_1.$('#' + _this.id + ' option:first').attr('selected', 'selected');
+                    _this.change(jquery_1.$('#' + _this.id + ' option:first').val());
                 }
                 else {
-                    $('#' + _this.id).val(_this.modelValue).attr('selected', 'selected');
+                    jquery_1.$('#' + _this.id).val(_this.modelValue).attr('selected', 'selected');
                 }
             }, 0);
         }
