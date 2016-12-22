@@ -1,5 +1,4 @@
 import { _ } from 'underscore';
-import { $ } from 'jquery';
 import { Input, Component, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GridProvider } from './grid.provider';

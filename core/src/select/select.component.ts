@@ -1,6 +1,5 @@
 import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
 import { _ } from 'underscore';
-import { $ } from 'jquery';
 
 @Component({
   moduleId: module.id,

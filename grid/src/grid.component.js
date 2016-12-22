@@ -6,7 +6,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var underscore_1 = require('underscore');
-var jquery_1 = require('jquery');
 var core_1 = require('@angular/core');
 var GridComponent = (function () {
     function GridComponent(ref) {
@@ -56,7 +55,7 @@ var GridComponent = (function () {
         this.loadData(function () { return _this.provider.getData(0); });
     };
     GridComponent.prototype.loadElements = function () {
-        setTimeout(function () { return jquery_1.$('.modal-trigger').leanModal(); }, 0);
+        setTimeout(function () { return $('.modal-trigger').leanModal(); }, 0);
     };
     GridComponent.prototype.loadData = function (dataLoader) {
         var _this = this;
