@@ -7,15 +7,15 @@ var __extends = (this && this.__extends) || function (d, b) {
 var http_1 = require('@angular/http');
 var util_1 = require('util');
 var GridProvider = (function () {
-    function GridProvider(serverApi, mapper, params, _headers, _editPermissions, _removePermissions, _readOnly) {
-        if (_editPermissions === void 0) { _editPermissions = []; }
-        if (_removePermissions === void 0) { _removePermissions = []; }
+    function GridProvider(serverApi, mapper, params, _headers, _hasEditPermissions, _hasRemovePermissions, _readOnly) {
+        if (_hasEditPermissions === void 0) { _hasEditPermissions = true; }
+        if (_hasRemovePermissions === void 0) { _hasRemovePermissions = true; }
         this.serverApi = serverApi;
         this.mapper = mapper;
         this.params = params;
         this._headers = _headers;
-        this._editPermissions = _editPermissions;
-        this._removePermissions = _removePermissions;
+        this._hasEditPermissions = _hasEditPermissions;
+        this._hasRemovePermissions = _hasRemovePermissions;
         this._readOnly = _readOnly;
         this._pagination = Pagination.empty;
         this._filter = new Filter();
@@ -59,16 +59,16 @@ var GridProvider = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(GridProvider.prototype, "editPermissions", {
+    Object.defineProperty(GridProvider.prototype, "hasEditPermissions", {
         get: function () {
-            return this._editPermissions;
+            return this._hasEditPermissions;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(GridProvider.prototype, "removePermissions", {
+    Object.defineProperty(GridProvider.prototype, "hasRemovePermissions", {
         get: function () {
-            return this._removePermissions;
+            return this._hasRemovePermissions;
         },
         enumerable: true,
         configurable: true
@@ -132,12 +132,12 @@ var GridProviderBuilder = (function () {
         this._headers = headers;
         return this;
     };
-    GridProviderBuilder.prototype.editPermissions = function (editPermissions) {
-        this._editPermissions = editPermissions;
+    GridProviderBuilder.prototype.hasEditPermissions = function (editPermissions) {
+        this._hasEditPermissions = editPermissions;
         return this;
     };
-    GridProviderBuilder.prototype.removePermissions = function (removePermissions) {
-        this._removePermissions = removePermissions;
+    GridProviderBuilder.prototype.hasRemovePermissions = function (removePermissions) {
+        this._hasRemovePermissions = removePermissions;
         return this;
     };
     GridProviderBuilder.prototype.readOnly = function () {
@@ -146,7 +146,7 @@ var GridProviderBuilder = (function () {
     };
     GridProviderBuilder.prototype.build = function () {
         var params = this._params || new PageRequest().buildParams();
-        return new GridProvider(this._service, this._mapper, params, this._headers, this._editPermissions, this._removePermissions, this._readOnly);
+        return new GridProvider(this._service, this._mapper, params, this._headers, this._hasEditPermissions, this._hasRemovePermissions, this._readOnly);
     };
     return GridProviderBuilder;
 }());

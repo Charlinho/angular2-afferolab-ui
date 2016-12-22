@@ -40,8 +40,8 @@ import { GridProvider } from './grid.provider';
                         <span *ngIf="value != null && value.toString().indexOf('http') === -1">{{ value }}</span>
                     </td>
                      <td *ngIf="!provider.readOnly">
-                        <a *ngIf="provider.hasEditPermissions()" [routerLink]="[provider.path, item.id]"><i class="material-icons action-button">mode_edit</i></a>
-                        <confirm-button *ngIf="provider.hasRemovePermissions()" (onConfirm)="remove($event)"
+                        <a *ngIf="provider.hasEditPermissions" [routerLink]="[provider.path, item.id]"><i class="material-icons action-button">mode_edit</i></a>
+                        <confirm-button *ngIf="provider.hasRemovePermissions" (onConfirm)="remove($event)"
                                         [title]="modalMessage.title"
                                         [content]="modalMessage.content"
                                         [data]="item.id">
