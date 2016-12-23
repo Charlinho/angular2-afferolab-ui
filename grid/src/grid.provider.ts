@@ -36,7 +36,8 @@ export class GridProvider<MODEL> {
               protected _headers: Array<string>,
               protected _hasEditPermissions: boolean = true,
               protected _hasRemovePermissions: boolean = true,
-              protected _readOnly: boolean) {}
+              protected _readOnly: boolean,
+              protected _hasFilter: boolean = true) {}
 
 
   get headers() {
@@ -57,6 +58,10 @@ export class GridProvider<MODEL> {
 
   get readOnly() {
     return this._readOnly;
+  }
+
+  get hasFilter() {
+    return this._hasFilter;
   }
 
   getData(page: number = -1): Observable<Array<any>> {
@@ -98,6 +103,8 @@ class GridProviderBuilder {
   private _hasRemovePermissions: boolean;
 
   private _readOnly: boolean = false;
+
+  private _hasFilter: boolean = false;
 
   service(service: any): GridProviderBuilder {
     this._service = service;
@@ -145,10 +152,15 @@ class GridProviderBuilder {
     return this;
   }
 
+  hasFilter(filter: boolean): GridProviderBuilder {
+    this._hasFilter = filter;
+    return this;
+  }
+
 
   build(): GridProvider<MODEL> {
     let params: URLSearchParams = this._params || new PageRequest().buildParams();
-    return new GridProvider(this._service, this._mapper, params, this._headers, this._hasEditPermissions, this._hasRemovePermissions, this._readOnly);
+    return new GridProvider(this._service, this._mapper, params, this._headers, this._hasEditPermissions, this._hasRemovePermissions, this._readOnly, this._hasFilter);
   }
 }
 

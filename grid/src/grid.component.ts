@@ -8,7 +8,7 @@ import { GridProvider } from './grid.provider';
   template: `
             <loader [showLoad]="showLoad"></loader>
             <toast-message [message]="message"></toast-message>
-            <div class="card-panel">
+            <div *ngIf="provider.hasFilter" class="card-panel">
               <div class="row">
                 <div class="col s12 m12 l2">
                 <select-box [options]="status" [key]="'value'" [(modelValue)]="provider.filter.status" ></select-box>

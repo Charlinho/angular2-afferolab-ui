@@ -7,9 +7,10 @@ var __extends = (this && this.__extends) || function (d, b) {
 var http_1 = require('@angular/http');
 var util_1 = require('util');
 var GridProvider = (function () {
-    function GridProvider(serverApi, mapper, params, _headers, _hasEditPermissions, _hasRemovePermissions, _readOnly) {
+    function GridProvider(serverApi, mapper, params, _headers, _hasEditPermissions, _hasRemovePermissions, _readOnly, _hasFilter) {
         if (_hasEditPermissions === void 0) { _hasEditPermissions = true; }
         if (_hasRemovePermissions === void 0) { _hasRemovePermissions = true; }
+        if (_hasFilter === void 0) { _hasFilter = true; }
         this.serverApi = serverApi;
         this.mapper = mapper;
         this.params = params;
@@ -17,6 +18,7 @@ var GridProvider = (function () {
         this._hasEditPermissions = _hasEditPermissions;
         this._hasRemovePermissions = _hasRemovePermissions;
         this._readOnly = _readOnly;
+        this._hasFilter = _hasFilter;
         this._pagination = Pagination.empty;
         this._filter = new Filter();
         this._pageRequest = new PageRequest();
@@ -80,6 +82,13 @@ var GridProvider = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(GridProvider.prototype, "hasFilter", {
+        get: function () {
+            return this._hasFilter;
+        },
+        enumerable: true,
+        configurable: true
+    });
     GridProvider.prototype.getData = function (page) {
         if (page === void 0) { page = -1; }
         if (page === -1) {
@@ -108,6 +117,7 @@ exports.GridProvider = GridProvider;
 var GridProviderBuilder = (function () {
     function GridProviderBuilder() {
         this._readOnly = false;
+        this._hasFilter = false;
     }
     GridProviderBuilder.prototype.service = function (service) {
         this._service = service;
@@ -144,9 +154,13 @@ var GridProviderBuilder = (function () {
         this._readOnly = true;
         return this;
     };
+    GridProviderBuilder.prototype.hasFilter = function (filter) {
+        this._hasFilter = filter;
+        return this;
+    };
     GridProviderBuilder.prototype.build = function () {
         var params = this._params || new PageRequest().buildParams();
-        return new GridProvider(this._service, this._mapper, params, this._headers, this._hasEditPermissions, this._hasRemovePermissions, this._readOnly);
+        return new GridProvider(this._service, this._mapper, params, this._headers, this._hasEditPermissions, this._hasRemovePermissions, this._readOnly, this._hasFilter);
     };
     return GridProviderBuilder;
 }());
