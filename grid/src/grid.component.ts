@@ -168,7 +168,7 @@ export class GridComponent {
       data => {
         this.list.length=0;
         data.forEach(values =>  {
-          let item = {id: any, columns:[]};
+          let item = {columns:[]};
 
           for(var key in values) {
             if (key === '_id') {
