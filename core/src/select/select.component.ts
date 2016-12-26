@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { _ } from 'underscore';
 
 @Component({
@@ -36,7 +36,7 @@ export class SelectComponent implements OnChanges {
     this.onChange.emit(newValue);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: any): void {
     if (changes.options && changes.options.currentValue) {
       setTimeout(() => {
         if (_.isUndefined(this.modelValue)) {

@@ -214,6 +214,7 @@ var Params = (function () {
 var Filter = (function (_super) {
     __extends(Filter, _super);
     function Filter(status, q) {
+        _super.call(this);
         this.status = status;
         this.q = q;
     }
@@ -224,6 +225,7 @@ var PageRequest = (function (_super) {
     function PageRequest(page, size) {
         if (page === void 0) { page = Pagination.defaultPageNumber; }
         if (size === void 0) { size = Pagination.defaultPageSize; }
+        _super.call(this);
         this.page = page;
         this.size = size;
     }

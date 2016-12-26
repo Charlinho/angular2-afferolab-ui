@@ -125,21 +125,25 @@ export class GridComponent {
     /*@todo criar classe para Lazy load que carregue apenas uma vez o conteudo.*/
     if (!this.loaded) {
       this.loaded = true;
-      this.loadData(()=> this.provider.getData(0));
+      this.loadData(() => {
+        return this.provider.getData(0);
+      });
     }
 
     return this.list;
   }
 
-  getPage(page: int) : void {
-    this.loadData(()=> this.provider.getData(page));
+  getPage(page: number) : void {
+    this.loadData(() => {
+      return this.provider.getData(page);
+    });
   }
 
   remove(id: number): void {
     this.showLoad = true;
     this.provider.remove(id).subscribe(
       () => {
-        this.loadData(()=> this.provider.getData());
+        this.loadData(() => this.provider.getData());
         this.showLoad = false;
       },
       () => {
@@ -157,14 +161,14 @@ export class GridComponent {
     setTimeout(() => $('.modal-trigger').leanModal(), 0);
   }
 
-  public loadData(dataLoader : ()=> ()=>Observable<Array<any>>) {
+  public loadData(dataLoader : ()=>Observable<Array<any>>) {
     this.showLoad = true;
     dataLoader().subscribe(
       // onSuccess
       data => {
         this.list.length=0;
         data.forEach(values =>  {
-          let item = {columns:[]};
+          let item = {id: any, columns:[]};
 
           for(var key in values) {
             if (key === '_id') {

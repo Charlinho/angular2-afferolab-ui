@@ -28,7 +28,9 @@ var GridComponent = (function () {
             /*@todo criar classe para Lazy load que carregue apenas uma vez o conteudo.*/
             if (!this.loaded) {
                 this.loaded = true;
-                this.loadData(function () { return _this.provider.getData(0); });
+                this.loadData(function () {
+                    return _this.provider.getData(0);
+                });
             }
             return this.list;
         },
@@ -37,7 +39,9 @@ var GridComponent = (function () {
     });
     GridComponent.prototype.getPage = function (page) {
         var _this = this;
-        this.loadData(function () { return _this.provider.getData(page); });
+        this.loadData(function () {
+            return _this.provider.getData(page);
+        });
     };
     GridComponent.prototype.remove = function (id) {
         var _this = this;
@@ -65,7 +69,7 @@ var GridComponent = (function () {
         function (data) {
             _this.list.length = 0;
             data.forEach(function (values) {
-                var item = { columns: [] };
+                var item = { id: any, columns: [] };
                 for (var key in values) {
                     if (key === '_id') {
                         item.id = values[key];
