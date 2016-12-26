@@ -217,9 +217,23 @@ abstract class Params {
 }
 
 class Filter extends Params {
-  constructor(public status?: boolean, public q?: string) {}
+    status: boolean;
+    q: string;
+
+    constructor(status?: boolean, q?: string) {
+        super();
+        this.status = status;
+        this.q = q;
+    }
 }
 
 class PageRequest extends Params {
-  constructor(public page: number = Pagination.defaultPageNumber, public size: number = Pagination.defaultPageSize) {}
+    page: number;
+    size: number;
+
+    constructor(page: number = Pagination.defaultPageNumber, size: number = Pagination.defaultPageSize) {
+        super();
+        this.page = page;
+        this.size = size;
+    }
 }
