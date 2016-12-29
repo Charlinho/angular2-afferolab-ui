@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
-  moduleId: module.id,
   selector: 'toast-message',
   template: ''
 })

@@ -19,7 +19,6 @@ var ToastMessageComponent = (function () {
     ], ToastMessageComponent.prototype, "message");
     ToastMessageComponent = __decorate([
         core_1.Component({
-            moduleId: module.id,
             selector: 'toast-message',
             template: ''
         })
