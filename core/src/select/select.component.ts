@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core
 import { _ } from 'underscore';
 
 @Component({
-  moduleId: module.id,
   selector: 'select-box',
   template: `<select id="{{ id }}" class="browser-default" [(ngModel)]="modelValue" (ngModelChange)="change($event)" [disabled]="disabledSelect">
                 <option *ngFor="let option of options" [value]="option[key]">{{ option.name }}</option>
