@@ -117,7 +117,6 @@ exports.GridProvider = GridProvider;
 var GridProviderBuilder = (function () {
     function GridProviderBuilder() {
         this._readOnly = false;
-        this._hasFilter = false;
     }
     GridProviderBuilder.prototype.service = function (service) {
         this._service = service;

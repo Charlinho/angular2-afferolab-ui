@@ -104,7 +104,7 @@ class GridProviderBuilder {
 
   private _readOnly: boolean = false;
 
-  private _hasFilter: boolean = false;
+  private _hasFilter: boolean;
 
   service(service: any): GridProviderBuilder {
     this._service = service;
