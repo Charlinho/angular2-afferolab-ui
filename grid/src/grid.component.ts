@@ -11,7 +11,7 @@ import { GridProvider } from './grid.provider';
             <div *ngIf="provider.hasFilter" class="card-panel">
               <div class="row">
                 <div class="col s12 m12 l2">
-                <select-box [options]="status" [key]="'value'" [(modelValue)]="provider.filter.status" ></select-box>
+                <select-box [options]="status" [key]="'value'" [optionValue]="'name'" [(modelValue)]="provider.filter.status" ></select-box>
                 </div>
                 <div class="col s12 m12 l5">
                   <input class="" placeholder="Pesquisar..." aria-controls="example" type="search" [(ngModel)]="provider.filter.q">
