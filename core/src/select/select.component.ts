@@ -4,7 +4,7 @@ import { _ } from 'underscore';
 @Component({
   selector: 'select-box',
   template: `<select id="{{ id }}" class="browser-default" [(ngModel)]="modelValue" (ngModelChange)="change($event)" [disabled]="disabledSelect">
-                <option *ngFor="let option of options" [value]="option[key]">{{ option.name }}</option>
+                <option *ngFor="let option of options" [value]="option[key]">{{ option[optionValue] }}</option>
               </select>`
 })
 export class SelectComponent implements OnChanges {
@@ -16,6 +16,9 @@ export class SelectComponent implements OnChanges {
 
   @Input('options')
   options: Array<any>;
+
+  @Input('optionValue')
+  optionValue: string;
 
   @Input('key')
   key: any;
