@@ -40,8 +40,8 @@ import { GridProvider } from './grid.provider';
                         <span *ngIf="value != null && value.toString().indexOf('http') === -1">{{ value }}</span>
                     </td>
                      <td *ngIf="!provider.readOnly">
-                        <a *ngIf="provider.hasEditPermissions" [routerLink]="[provider.path, item.id]"><i class="material-icons action-button">mode_edit</i></a>
-                        <confirm-button *ngIf="provider.hasRemovePermissions" (onConfirm)="remove($event)"
+                        <a *ngIf="provider.actionEdit.canShow()" [routerLink]="[provider.path, item.id]"><i class="material-icons action-button">mode_edit</i></a>
+                        <confirm-button *ngIf="provider.actionRemove.canShow()" (onConfirm)="remove($event)"
                                         [title]="modalMessage.title"
                                         [content]="modalMessage.content"
                                         [data]="item.id">
@@ -142,14 +142,14 @@ export class GridComponent {
   remove(id: number): void {
     this.showLoad = true;
     this.provider.remove(id).subscribe(
-      () => {
-        this.loadData(() => this.provider.getData());
-        this.showLoad = false;
-      },
-      () => {
-        this.message = 'Erro ao remover registro.';
-        this.showLoad = false;
-      }
+        () => {
+          this.loadData(() => this.provider.getData());
+          this.showLoad = false;
+        },
+        () => {
+          this.message = 'Erro ao remover registro.';
+          this.showLoad = false;
+        }
     );
   }
 
@@ -164,34 +164,34 @@ export class GridComponent {
   public loadData(dataLoader : ()=>Observable<Array<any>>) {
     this.showLoad = true;
     dataLoader().subscribe(
-      // onSuccess
-      data => {
-        this.list.length=0;
-        data.forEach(values =>  {
-          let item = {columns:[]};
+        // onSuccess
+        data => {
+          this.list.length=0;
+          data.forEach(values =>  {
+            let item = {columns:[]};
 
-          for(var key in values) {
-            if (key === '_id') {
-              item.id = values[key];
-            } else {
-              item.columns.push(values[key]);
+            for(var key in values) {
+              if (key === '_id') {
+                item.id = values[key];
+              } else {
+                item.columns.push(values[key]);
+              }
             }
-          }
-          this.list.push(item);
-        });
-        this.showLoad = false;
-      },
-      // onError
-      () => {
-        this.showLoad = false;
-        this.message = 'Erro ao listar os registros.'
-      },
-      // onComplete
-      () => {
-        this.ref.detectChanges();
-        this.loadElements();
-        this.showLoad = false;
-      }
+            this.list.push(item);
+          });
+          this.showLoad = false;
+        },
+        // onError
+        () => {
+          this.showLoad = false;
+          this.message = 'Erro ao listar os registros.'
+        },
+        // onComplete
+        () => {
+          this.ref.detectChanges();
+          this.loadElements();
+          this.showLoad = false;
+        }
     );
   }
 
