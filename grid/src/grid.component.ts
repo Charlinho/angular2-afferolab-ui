@@ -47,6 +47,10 @@ import { GridProvider } from './grid.provider';
                                         [data]="item.id">
                             <i class="material-icons action-button">delete</i>
                         </confirm-button>
+                        <span *ngIf="provider.actionSelect.canShow()" >
+                          <input id="select_{{item.id}}" type="checkbox" [(ngModel)]="item.checked" (change)="updateList($event, item)">
+                          <label htmlFor="select_{{item.id}}"></label>
+                        </span>
                     </td>
                   </tr>
                   <tr *ngIf="items && items.length == 0">
@@ -200,5 +204,21 @@ export class GridComponent {
     if (e.keyCode === 13) {
       this.search();
     }
+  }
+
+  updateList(event, item: any): void {
+    if (event.currentTarget.checked) {
+      this.addItem(item);
+    } else {
+      this.removeItem(item)
+    }
+  }
+
+  addItem(item: any) {
+    this.provider.actionSelect.addItem(item);
+  }
+
+  removeItem(item: any) {
+    this.provider.actionSelect.removeItem(item);
   }
 }

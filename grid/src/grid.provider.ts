@@ -2,12 +2,9 @@ import { Observable } from 'rxjs';
 import { URLSearchParams } from '@angular/http';
 import { isNullOrUndefined } from 'util';
 import { Mapper } from './mapper';
+import { _ } from 'underscore';
 
 export class GridProvider<MODEL> {
-
-  static ACTION_EDIT: string = 'ACTION_EDIT';
-  static ACTION_REMOVE: string = 'ACTION_REMOVE';
-  static ACTION_SELECT: string = 'ACTION_SELECT';
 
   private _pagination: Pagination = Pagination.empty;
 
@@ -146,18 +143,18 @@ class GridProviderBuilder {
     return this;
   }
 
-  actionRemove(hasPermission: boolean): GridProviderBuilder {
+  actionRemove(hasPermission: boolean = false): GridProviderBuilder {
     this._actionRemove = new ActionRemove(hasPermission);
     return this;
   }
 
-  actionEdit(hasPermission: boolean): GridProviderBuilder {
+  actionEdit(hasPermission: boolean = false): GridProviderBuilder {
     this._actionEdit = new ActionEdit(hasPermission);
     return this;
   }
 
-  actionSelect(hasPermission: boolean): GridProviderBuilder {
-    this._actionSelect = new ActionSelect(hasPermission);
+  actionSelect(hasPermission: boolean = false, selectedItems: Array<any> = []): GridProviderBuilder {
+    this._actionSelect = new ActionSelect(hasPermission, selectedItems);
     return this;
   }
 
@@ -171,9 +168,12 @@ class GridProviderBuilder {
     return this;
   }
 
-  build(): GridProvider<MODEL> {
+  build(): GridProvider<any> {
     let params: URLSearchParams = this._params || new PageRequest().buildParams();
-    return new GridProvider(this._service, this._mapper, params, this._headers, this._readOnly, this._hasFilter, this._actionRemove, this._actionEdit, this._actionSelect);
+    let actionEdit = this._actionEdit || new ActionEdit();
+    let actionRemove = this._actionRemove || new ActionRemove();
+    let actionSelect= this._actionSelect || new ActionSelect();
+    return new GridProvider(this._service, this._mapper, params, this._headers, this._readOnly, this._hasFilter, actionRemove, actionEdit, actionSelect);
   }
 }
 
@@ -255,7 +255,7 @@ interface Action {
   canShow(hasPermission: boolean): boolean;
 }
 
-abstract class AbstractAction implements Action{
+abstract class AbstractAction implements Action {
   hasPermission: boolean;
 
   constructor(hasPermission: boolean) {
@@ -268,20 +268,34 @@ abstract class AbstractAction implements Action{
 }
 
 class ActionRemove extends AbstractAction {
-  constructor(hasPermission: boolean) {
+  constructor(hasPermission: boolean = false) {
     super(hasPermission);
   }
 }
 
 class ActionEdit extends AbstractAction {
-  constructor(hasPermission: boolean) {
+  constructor(hasPermission: boolean = false) {
     super(hasPermission);
   }
 
 }
 
 class ActionSelect extends AbstractAction {
-  constructor(hasPermission: boolean) {
+  public selectedItems: Array<any> = [];
+
+  constructor(hasPermission: boolean = false, selectedItems: Array<any> = []) {
     super(hasPermission);
+    this.selectedItems = selectedItems;
+  }
+
+  public addItem(item: any) {
+    this.selectedItems.push(item);
+  }
+
+  public removeItem(item: any) {
+    let indexToRemove = _.findIndex(this.selectedItems, function (selectedItem) {
+      return selectedItem.id == item.id;
+    });
+    this.selectedItems.splice(indexToRemove, 1);
   }
 }
