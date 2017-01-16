@@ -47,9 +47,14 @@ import { GridProvider } from './grid.provider';
                                         [data]="item.id">
                             <i class="material-icons action-button">delete</i>
                         </confirm-button>
-                        <span *ngIf="provider.actionSelect.canShow()" >
-                          <input id="select_{{item.id}}" type="checkbox" [(ngModel)]="item.checked" (change)="updateList($event, item)">
-                          <label htmlFor="select_{{item.id}}"></label>
+                        <span *ngIf="provider.actionMultiSelect.canShow()" >
+                          <input id="multi_select_{{item.id}}" type="checkbox" [(ngModel)]="item.checked" (change)="updateList($event, item)">
+                          <label htmlFor="multi_select_{{item.id}}"></label>
+                        </span>
+                        <span *ngIf="provider.actionSingleSelect.canShow()" >
+                          <a class="waves-effect waves-light btn-sm btn-floating blue" (click)="updateItem(item)">
+                            <i class="material-icons dp48">done</i>
+                          </a>
                         </span>
                     </td>
                   </tr>
@@ -208,17 +213,13 @@ export class GridComponent {
 
   updateList(event, item: any): void {
     if (event.currentTarget.checked) {
-      this.addItem(item);
+      this.provider.actionMultiSelect.addItem(item);
     } else {
-      this.removeItem(item)
+      this.provider.actionMultiSelect.removeItem(item);
     }
   }
 
-  addItem(item: any) {
-    this.provider.actionSelect.addItem(item);
-  }
-
-  removeItem(item: any) {
-    this.provider.actionSelect.removeItem(item);
+  updateItem(item: any): void {
+    this.provider.actionSingleSelect.addItem(item);
   }
 }

@@ -22,7 +22,8 @@ export class GridProvider<MODEL> {
               protected _hasFilter: boolean = true,
               protected _actionRemove: Action,
               protected _actionEdit: Action,
-              protected _actionSelect: Action) {}
+              protected _actionMultiSelect: Action,
+              protected _actionSingleSelect: Action) {}
 
   get pagination() {
     return this._pagination;
@@ -40,8 +41,12 @@ export class GridProvider<MODEL> {
     return this._actionEdit;
   }
 
-  get actionSelect() {
-    return this._actionSelect;
+  get actionMultiSelect() {
+    return this._actionMultiSelect;
+  }
+
+  get actionSingleSelect() {
+    return this._actionSingleSelect;
   }
 
   get pageRequest() {
@@ -110,7 +115,9 @@ class GridProviderBuilder {
 
   private _actionEdit: Action;
 
-  private _actionSelect: Action;
+  private _actionMultiSelect: Action;
+
+  private _actionSingleSelect: Action;
 
   service(service: any): GridProviderBuilder {
     this._service = service;
@@ -153,8 +160,13 @@ class GridProviderBuilder {
     return this;
   }
 
-  actionSelect(hasPermission: boolean = false, selectedItems: Array<any> = []): GridProviderBuilder {
-    this._actionSelect = new ActionSelect(hasPermission, selectedItems);
+  actionMultiSelect(hasPermission: boolean = false, selectedItems: Array<any> = []): GridProviderBuilder {
+    this._actionMultiSelect = new ActionMultiSelect(hasPermission, selectedItems);
+    return this;
+  }
+
+  actionSingleSelect(hasPermission: boolean = false, selectedItem: any, callback: any): GridProviderBuilder {
+    this._actionSingleSelect = new ActionSingleSelect(hasPermission, selectedItem, callback);
     return this;
   }
 
@@ -172,8 +184,9 @@ class GridProviderBuilder {
     let params: URLSearchParams = this._params || new PageRequest().buildParams();
     let actionEdit = this._actionEdit || new ActionEdit();
     let actionRemove = this._actionRemove || new ActionRemove();
-    let actionSelect= this._actionSelect || new ActionSelect();
-    return new GridProvider(this._service, this._mapper, params, this._headers, this._readOnly, this._hasFilter, actionRemove, actionEdit, actionSelect);
+    let actionMultiSelect = this._actionMultiSelect || new ActionMultiSelect();
+    let actionSingleSelect = this._actionSingleSelect || new ActionSingleSelect();
+    return new GridProvider(this._service, this._mapper, params, this._headers, this._readOnly, this._hasFilter, actionRemove, actionEdit, actionMultiSelect, actionSingleSelect);
   }
 }
 
@@ -280,7 +293,7 @@ class ActionEdit extends AbstractAction {
 
 }
 
-class ActionSelect extends AbstractAction {
+class ActionMultiSelect extends AbstractAction {
   public selectedItems: Array<any> = [];
 
   constructor(hasPermission: boolean = false, selectedItems: Array<any> = []) {
@@ -297,5 +310,27 @@ class ActionSelect extends AbstractAction {
       return selectedItem.id == item.id;
     });
     this.selectedItems.splice(indexToRemove, 1);
+  }
+}
+
+class ActionSingleSelect extends AbstractAction {
+  public selectedItem: any;
+  private callback: any;
+
+  constructor(hasPermission: boolean = false, selectedItem: any, callback: any) {
+    super(hasPermission);
+    this.selectedItem = selectedItem;
+    this.callback = callback;
+  }
+
+  public addItem(item: any) {
+    Object.assign(this.selectedItem, item);
+    if (this.callback) {
+      this.callback();
+    }
+  }
+
+  public removeItem() {
+    delete this.selectedItem;
   }
 }
