@@ -53,7 +53,7 @@ import { GridProvider } from './grid.provider';
                         </span>
                         <span *ngIf="provider.actionSingleSelect.canShow()" >
                           <a class="waves-effect waves-light btn-sm btn-floating blue" (click)="updateItem(item)">
-                            <i class="material-icons dp48">done</i>
+                            <i class="material-icons dp48">add</i>
                           </a>
                         </span>
                     </td>
