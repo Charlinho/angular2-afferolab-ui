@@ -183,6 +183,7 @@ export class GridComponent {
               if (key === '_id') {
                 item.id = values[key];
               } else {
+                item[this.buildKey(key)] = values[key];
                 item.columns.push(values[key]);
               }
             }
@@ -221,5 +222,9 @@ export class GridComponent {
 
   updateItem(item: any): void {
     this.provider.actionSingleSelect.addItem(item);
+  }
+
+  buildKey(key: string): string {
+    return key.substring(key.indexOf('.') +1, key.length);
   }
 }

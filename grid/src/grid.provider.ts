@@ -326,7 +326,7 @@ class ActionSingleSelect extends AbstractAction {
   public addItem(item: any) {
     Object.assign(this.selectedItem, item);
     if (this.callback) {
-      this.callback();
+      this.callback(this.selectedItem);
     }
   }
 
