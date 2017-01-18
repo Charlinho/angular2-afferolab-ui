@@ -1,5 +1,5 @@
 import { _ } from 'underscore';
-import { Input, Component, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Input, Output, Component, ChangeDetectorRef, HostListener, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GridProvider } from './grid.provider';
 
@@ -121,6 +121,9 @@ export class GridComponent {
   @Input('provider')
   provider: GridProvider<any>;
 
+  @Output('singleSelectItem')
+  singleSelectItem: EventEmitter<any> = new EventEmitter<any>();
+
   private list:Array<any> = [];
 
   private loaded:boolean = false;
@@ -151,14 +154,14 @@ export class GridComponent {
   remove(id: number): void {
     this.showLoad = true;
     this.provider.remove(id).subscribe(
-        () => {
-          this.loadData(() => this.provider.getData());
-          this.showLoad = false;
-        },
-        () => {
-          this.message = 'Erro ao remover registro.';
-          this.showLoad = false;
-        }
+      () => {
+        this.loadData(() => this.provider.getData());
+        this.showLoad = false;
+      },
+      () => {
+        this.message = 'Erro ao remover registro.';
+        this.showLoad = false;
+      }
     );
   }
 
@@ -173,35 +176,35 @@ export class GridComponent {
   public loadData(dataLoader : ()=>Observable<Array<any>>) {
     this.showLoad = true;
     dataLoader().subscribe(
-        // onSuccess
-        data => {
-          this.list.length=0;
-          data.forEach(values =>  {
-            let item = {columns:[]};
+      // onSuccess
+      data => {
+        this.list.length=0;
+        data.forEach(values =>  {
+          let item = {columns:[]};
 
-            for(var key in values) {
-              if (key === '_id') {
-                item.id = values[key];
-              } else {
-                item[this.buildKey(key)] = values[key];
-                item.columns.push(values[key]);
-              }
+          for(var key in values) {
+            if (key === '_id') {
+              item.id = values[key];
+            } else {
+              item[this.buildKey(key)] = values[key];
+              item.columns.push(values[key]);
             }
-            this.list.push(item);
-          });
-          this.showLoad = false;
-        },
-        // onError
-        () => {
-          this.showLoad = false;
-          this.message = 'Erro ao listar os registros.'
-        },
-        // onComplete
-        () => {
-          this.ref.detectChanges();
-          this.loadElements();
-          this.showLoad = false;
-        }
+          }
+          this.list.push(item);
+        });
+        this.showLoad = false;
+      },
+      // onError
+      () => {
+        this.showLoad = false;
+        this.message = 'Erro ao listar os registros.'
+      },
+      // onComplete
+      () => {
+        this.ref.detectChanges();
+        this.loadElements();
+        this.showLoad = false;
+      }
     );
   }
 
@@ -222,6 +225,7 @@ export class GridComponent {
 
   updateItem(item: any): void {
     this.provider.actionSingleSelect.addItem(item);
+    this.singleSelectItem.emit();
   }
 
   buildKey(key: string): string {
