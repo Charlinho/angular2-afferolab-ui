@@ -248,7 +248,11 @@ class Filter extends Params {
 
   constructor(status?: boolean, q?: string) {
     super();
-    this.status = status;
+    if (status) {
+      this.status = status;
+    } else {
+      this.status = '';
+    }
     this.q = q;
   }
 }
