@@ -2,6 +2,7 @@ import { _ } from 'underscore';
 import { Input, Output, Component, ChangeDetectorRef, HostListener, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GridProvider } from './grid.provider';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'grid',
