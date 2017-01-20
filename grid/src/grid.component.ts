@@ -30,6 +30,7 @@ import { GridProvider } from './grid.provider';
                   <tr>
                     <th *ngFor="let head of provider.headers">{{ head }}</th>
                     <th width="15%" *ngIf="!provider.readOnly">Ações</th>
+                    <th width="10%" *ngIf="provider.readOnly && provider.status">Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -37,7 +38,8 @@ import { GridProvider } from './grid.provider';
                     <td *ngFor="let value of item.columns">
                         <!-- TODO: REFATORAR -->
                         <a *ngIf="value != null && value.toString().indexOf('http') > -1" href="{{ value }}" target="_blank" >VISUALIZAR</a>
-                        <span *ngIf="value != null && value.toString().indexOf('http') === -1">{{ value }}</span>
+                        <span *ngIf="value != null && value.toString().indexOf('http') === -1 && !lastValueIsStatus(value)">{{ value }}</span>
+                        <span *ngIf="provider.readOnly && lastValueIsStatus(value)"><semaphore [tooltipText]="value" [style]="getStyle(value)"></semaphore></span>
                     </td>
                      <td *ngIf="!provider.readOnly">
                         <a *ngIf="provider.actionEdit.canShow()" [routerLink]="[provider.path, item.id]"><i class="material-icons action-button">mode_edit</i></a>
@@ -230,5 +232,33 @@ export class GridComponent {
 
   buildKey(key: string): string {
     return key.substring(key.indexOf('.') +1, key.length);
+  }
+
+  lastValueIsStatus(value: string): boolean {
+    let isStatus = false;
+
+    if (this.provider.readOnly) {
+      this.list.forEach(item => {
+        let lastColumn = _.last(item.columns);
+
+        if (!isNullOrUndefined(lastColumn) && !isNullOrUndefined(value)) {
+          if (lastColumn === value) {
+            isStatus = true;
+          }
+        }
+      });
+    }
+
+    return isStatus;
+  }
+
+  getStyle(value): string {
+    let style = '';
+
+    if (this.provider.status && this.provider.status.statuses) {
+      style = _.findWhere(this.provider.status.statuses, {name: value}).color;
+    }
+
+    return style;
   }
 }
