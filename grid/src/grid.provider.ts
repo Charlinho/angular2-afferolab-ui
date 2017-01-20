@@ -16,6 +16,8 @@ export class GridProvider<MODEL> {
 
   _pageRequest: PageRequest = new PageRequest();
 
+  public static get SEMAPHORE():string { return "GridSemaphore"; }
+
   constructor(public serverApi: any,
               protected mapper: Mapper,
               protected params: URLSearchParams,
