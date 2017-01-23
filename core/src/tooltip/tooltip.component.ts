@@ -2,7 +2,9 @@ import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'tooltip',
-  template: `<span id="{{id}}" [ngClass]="ngClass" class="tooltipped"></span>`
+  template: `<span id="{{id}}" [ngClass]="ngClass" class="tooltipped">
+                 <ng-content></ng-content>
+             </span>`
 })
 
 export class TooltipComponent implements AfterViewInit {
@@ -20,7 +22,7 @@ export class TooltipComponent implements AfterViewInit {
   ngClass: string;
 
   @Input('id')
-  id: string;
+  id: any;
 
   ngAfterViewInit() {
     $('#' + this.id).tooltip({
