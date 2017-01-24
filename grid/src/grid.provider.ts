@@ -21,7 +21,7 @@ export class GridProvider<MODEL> {
   constructor(public serverApi: any,
               protected mapper: Mapper,
               protected params: URLSearchParams,
-              protected _headers: Array<string>,
+              protected _headers: Array<string> = [],
               protected _readOnly: boolean,
               protected _hasFilter: boolean = true,
               protected _actionRemove: Action,
@@ -80,6 +80,34 @@ export class GridProvider<MODEL> {
 
   get hasFilter() {
     return this._hasFilter;
+  }
+
+  setService(serverApi: any) {
+    this.serverApi = serverApi;
+  }
+
+  setHeaders(headers: any) {
+    this._headers = headers;
+  }
+
+  setMapper(mapper: any) {
+    this.mapper = mapper;
+  }
+
+  setActionRemove(hasPermission: any) {
+    this._actionRemove = new ActionRemove(hasPermission);
+  }
+
+  setActionEdit(hasPermission: boolean) {
+    this._actionEdit = new ActionEdit(hasPermission);
+  }
+
+  setActionMultiSelect(hasPermission: boolean = false, selectedItems: Array<any> = []) {
+    this._actionMultiSelect = new ActionMultiSelect(hasPermission, selectedItems);
+  }
+
+  setActionSingleSelect(hasPermission: boolean = false, selectedItem: any, callback: any) {
+    this._actionSingleSelect = new ActionSingleSelect(hasPermission, selectedItem, callback);
   }
 
   getData(page: number = -1): Observable<Array<any>> {

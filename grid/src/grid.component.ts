@@ -43,18 +43,18 @@ import { isNullOrUndefined } from 'util';
                         <span *ngIf="provider.readOnly && lastValueIsStatus(value)"><semaphore [tooltipText]="value" [style]="getStyle(value)"></semaphore></span>
                     </td>
                      <td *ngIf="!provider.readOnly">
-                        <a *ngIf="provider.actionEdit.canShow()" [routerLink]="[provider.path, item.id]"><i class="material-icons action-button">mode_edit</i></a>
-                        <confirm-button *ngIf="provider.actionRemove.canShow()" (onConfirm)="remove($event)"
+                        <a *ngIf="provider.actionEdit && provider.actionEdit.canShow()" [routerLink]="[provider.path, item.id]"><i class="material-icons action-button">mode_edit</i></a>
+                        <confirm-button *ngIf="provider.actionRemove && provider.actionRemove.canShow()" (onConfirm)="remove($event)"
                                         [title]="modalMessage.title"
                                         [content]="modalMessage.content"
                                         [data]="item.id">
                             <i class="material-icons action-button">delete</i>
                         </confirm-button>
-                        <span *ngIf="provider.actionMultiSelect.canShow()" >
+                        <span *ngIf="provider.actionMultiSelect && provider.actionMultiSelect.canShow()" >
                           <input id="multi_select_{{item.id}}" type="checkbox" [(ngModel)]="item.checked" (change)="updateList($event, item)">
                           <label htmlFor="multi_select_{{item.id}}"></label>
                         </span>
-                        <span *ngIf="provider.actionSingleSelect.canShow()" >
+                        <span *ngIf="provider.actionSingleSelect && provider.actionSingleSelect.canShow()" >
                           <a class="waves-effect waves-light btn-sm btn-floating blue" (click)="updateItem(item)">
                             <i class="material-icons dp48">add</i>
                           </a>
