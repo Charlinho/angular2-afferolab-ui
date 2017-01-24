@@ -127,6 +127,8 @@ export class GridComponent {
   @Output('singleSelectItem')
   singleSelectItem: EventEmitter<any> = new EventEmitter<any>();
 
+  @Input('loadOnStart') loadOnStart;
+
   private list:Array<any> = [];
 
   private loaded:boolean = false;
@@ -138,7 +140,7 @@ export class GridComponent {
 
   get items() {
     /*@todo criar classe para Lazy load que carregue apenas uma vez o conteudo.*/
-    if (!this.loaded) {
+    if (!this.loaded && (this.loadOnStart == undefined || this.loadOnStart)) {
       this.loaded = true;
       this.loadData(() => {
         return this.provider.getData(0);
