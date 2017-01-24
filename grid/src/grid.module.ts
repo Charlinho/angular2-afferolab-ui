@@ -7,8 +7,6 @@ import { SelectModule } from '../../core/src/select/select.module';
 import { LoaderModule } from '../../core/src/loader/loader.module';
 import { ToastMessageModule } from '../../core/src/toast-message/toast-message.module';
 import { GridComponent } from './grid.component';
-import { SemaphoreModule } from '../../core/src/semaphore/semaphore.module';
-
 
 @NgModule({
   imports: [
@@ -18,8 +16,7 @@ import { SemaphoreModule } from '../../core/src/semaphore/semaphore.module';
     FormsModule,
     SelectModule,
     LoaderModule,
-    ToastMessageModule,
-    SemaphoreModule
+    ToastMessageModule
   ],
   declarations: [
     GridComponent

@@ -3,8 +3,6 @@ import { URLSearchParams } from '@angular/http';
 import { isNullOrUndefined } from 'util';
 import { Mapper } from './mapper';
 import { _ } from 'underscore';
-import * as handlers from './handlers';
-import { AbstractStatus } from './grid.status';
 
 export class GridProvider<MODEL> {
 
@@ -16,8 +14,6 @@ export class GridProvider<MODEL> {
 
   _pageRequest: PageRequest = new PageRequest();
 
-  public static get SEMAPHORE():string { return "GridSemaphore"; }
-
   constructor(public serverApi: any,
               protected mapper: Mapper,
               protected params: URLSearchParams,
@@ -27,8 +23,7 @@ export class GridProvider<MODEL> {
               protected _actionRemove: Action,
               protected _actionEdit: Action,
               protected _actionMultiSelect: Action,
-              protected _actionSingleSelect: Action,
-              protected _status: AbstractStatus) {}
+              protected _actionSingleSelect: Action) {}
 
   get pagination() {
     return this._pagination;
@@ -52,10 +47,6 @@ export class GridProvider<MODEL> {
 
   get actionSingleSelect() {
     return this._actionSingleSelect;
-  }
-
-  get status() {
-    return this._status;
   }
 
   get pageRequest() {
@@ -156,8 +147,6 @@ class GridProviderBuilder {
 
   private _actionSingleSelect: Action;
 
-  private _status: AbstractStatus;
-
   service(service: any): GridProviderBuilder {
     this._service = service;
     return this;
@@ -214,13 +203,6 @@ class GridProviderBuilder {
     return this;
   }
 
-  status(className: string, statuses: Array<any>): GridProviderBuilder {
-    if (className && statuses.length > 0) {
-      this._status = new (<any>handlers)[className](statuses);
-    }
-    return this;
-  }
-
   hasFilter(filter: boolean): GridProviderBuilder {
     this._hasFilter = filter;
     return this;
@@ -232,7 +214,7 @@ class GridProviderBuilder {
     let actionRemove = this._actionRemove || new ActionRemove();
     let actionMultiSelect = this._actionMultiSelect || new ActionMultiSelect();
     let actionSingleSelect = this._actionSingleSelect || new ActionSingleSelect();
-    return new GridProvider(this._service, this._mapper, params, this._headers, this._readOnly, this._hasFilter, actionRemove, actionEdit, actionMultiSelect, actionSingleSelect, this._status || null);
+    return new GridProvider(this._service, this._mapper, params, this._headers, this._readOnly, this._hasFilter, actionRemove, actionEdit, actionMultiSelect, actionSingleSelect);
   }
 }
 
