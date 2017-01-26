@@ -110,8 +110,11 @@ export class GridProvider<MODEL> {
   }
 
   loadPageData(pageRequest: PageRequest): Observable<Array<any>> {
+    this.params = new URLSearchParams();
+
     this.params.setAll(this._filter.buildParams());
     this.params.setAll(pageRequest.buildParams());
+
     return this.serverApi.list(this.params).map(data=> {
       this._pagination = new Pagination(data.numberOfElements, data.totalPages, data.totalElements, pageRequest.page);
       return data.content.map((model)=>{

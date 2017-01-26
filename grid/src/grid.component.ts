@@ -9,28 +9,34 @@ import { isNullOrUndefined } from 'util';
   template: `
             <loader [showLoad]="showLoad"></loader>
             <toast-message [message]="message"></toast-message>
-            <div *ngIf="provider.hasFilter" class="card-panel">
+            <div class="card-panel">
+              <ng-content></ng-content>
+              <div *ngIf="!provider.hasFilter && filters" ngClass="{{buttonSearchClass}}">
+                  <a (click)="search()" class="btn-floating btn-sm waves-effect waves-light red" [ngStyle]="buttonSearchStyle">
+                    <i class="material-icons">search</i>
+                  </a>
+                </div>
               <div class="row">
-                <div class="col s12 m12 l2">
+                <div *ngIf="provider.hasFilter" ngClass="{{statusClass ? statusClass : 'col s12 m12 l2'}}">
                 <select-box [options]="status" [key]="'value'" [optionValue]="'name'" [(modelValue)]="provider.filter.status" ></select-box>
                 </div>
-                <div class="col s12 m12 l5">
+                <div *ngIf="provider.hasFilter" ngClass="{{inputSearchClass ? inputSearchClass : 'col s12 m12 l5'}}">
                   <input class="" placeholder="Pesquisar..." aria-controls="example" type="search" [(ngModel)]="provider.filter.q">
                 </div>
-                <div>
+                <div *ngIf="provider.hasFilter" ngClass="{{buttonSearchClass}}">
                   <a (click)="search()" class="btn-floating btn-sm waves-effect waves-light red">
                     <i class="material-icons">search</i>
                   </a>
                 </div>
+               </div>
               </div>
-            </div>
 
             <div id="example_wrapper" class="dataTables_wrapper">
               <table id="{{ id }}" class="display responsive-table datatable-example striped">
                 <thead>
                   <tr>
                     <th *ngFor="let head of provider.headers">{{ head }}</th>
-                    <th width="15%" *ngIf="!provider.readOnly">Ações</th>                   
+                    <th width="15%" *ngIf="!provider.readOnly">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -125,6 +131,16 @@ export class GridComponent {
 
   @Input('loadOnStart') loadOnStart;
 
+  @Input('filters') filters;
+
+  @Input('statusClass') statusClass;
+
+  @Input('inputSearchClass') inputSearchClass;
+
+  @Input('buttonSearchClass') buttonSearchClass;
+
+  @Input('buttonSearchStyle') buttonSearchStyle;
+
   private list:Array<any> = [];
 
   private loaded:boolean = false;
@@ -167,6 +183,7 @@ export class GridComponent {
   }
 
   search(): void {
+    this.buildSearchFilters();
     this.loadData(()=> this.provider.getData(0));
   }
 
@@ -177,35 +194,35 @@ export class GridComponent {
   public loadData(dataLoader : ()=>Observable<Array<any>>) {
     this.showLoad = true;
     dataLoader().subscribe(
-      // onSuccess
-      data => {
-        this.list.length=0;
-        data.forEach(values =>  {
-          let item = {columns:[]};
+        // onSuccess
+        data => {
+          this.list.length=0;
+          data.forEach(values =>  {
+            let item = {columns:[]};
 
-          for(var key in values) {
-            if (key === '_id') {
-              item.id = values[key];
-            } else {
-              item[this.buildKey(key)] = values[key];
-              item.columns.push(values[key]);
+            for(var key in values) {
+              if (key === '_id') {
+                item.id = values[key];
+              } else {
+                item[this.buildKey(key)] = values[key];
+                item.columns.push(values[key]);
+              }
             }
-          }
-          this.list.push(item);
-        });
-        this.showLoad = false;
-      },
-      // onError
-      () => {
-        this.showLoad = false;
-        this.message = 'Erro ao listar os registros.'
-      },
-      // onComplete
-      () => {
-        this.ref.detectChanges();
-        this.loadElements();
-        this.showLoad = false;
-      }
+            this.list.push(item);
+          });
+          this.showLoad = false;
+        },
+        // onError
+        () => {
+          this.showLoad = false;
+          this.message = 'Erro ao listar os registros.'
+        },
+        // onComplete
+        () => {
+          this.ref.detectChanges();
+          this.loadElements();
+          this.showLoad = false;
+        }
     );
   }
 
@@ -231,5 +248,22 @@ export class GridComponent {
 
   buildKey(key: string): string {
     return key.substring(key.indexOf('.') +1, key.length);
+  }
+
+  buildSearchFilters() {
+    this.cleanFilters();
+    if (this.filters) {
+      for (var key in this.filters) {
+        if (this.filters[key] !== 'null') {
+          this.provider.filter[key] = this.filters[key];
+        }
+      }
+    }
+  }
+
+  cleanFilters() {
+    for (var key in this.filters) {
+      delete this.provider._filter[key];
+    }
   }
 }
