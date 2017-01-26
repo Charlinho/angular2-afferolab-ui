@@ -24,7 +24,7 @@ import { isNullOrUndefined } from 'util';
                   <input class="" placeholder="Pesquisar..." aria-controls="example" type="search" [(ngModel)]="provider.filter.q">
                 </div>
                 <div *ngIf="provider.hasFilter" ngClass="{{buttonSearchClass}}">
-                  <a (click)="search()" class="btn-floating btn-sm waves-effect waves-light red">
+                  <a (click)="search()" class="btn-floating btn-sm button-confirm-color">
                     <i class="material-icons">search</i>
                   </a>
                 </div>
