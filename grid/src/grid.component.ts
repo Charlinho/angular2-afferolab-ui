@@ -57,7 +57,7 @@ import { isNullOrUndefined } from 'util';
                           <label htmlFor="multi_select_{{item.id}}"></label>
                         </span>
                         <span *ngIf="provider.actionSingleSelect && provider.actionSingleSelect.canShow()" >
-                          <a class="waves-effect waves-light btn-sm btn-floating blue" (click)="updateItem(item)">
+                          <a class="btn-sm btn-floating button-confirm-color" (click)="updateItem(item)">
                             <i class="material-icons dp48">add</i>
                           </a>
                         </span>
