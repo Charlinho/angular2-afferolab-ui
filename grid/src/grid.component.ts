@@ -12,7 +12,7 @@ import { isNullOrUndefined } from 'util';
             <div class="card-panel">
               <ng-content></ng-content>
               <div *ngIf="!provider.hasFilter && filters" ngClass="{{buttonSearchClass}}">
-                  <a (click)="search()" class="btn-floating btn-sm waves-effect waves-light red" [ngStyle]="buttonSearchStyle">
+                  <a (click)="search()" class="btn-floating btn-sm button-confirm-color" [ngStyle]="buttonSearchStyle">
                     <i class="material-icons">search</i>
                   </a>
                 </div>
