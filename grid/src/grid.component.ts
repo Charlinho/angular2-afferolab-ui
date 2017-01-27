@@ -2,7 +2,6 @@ import { _ } from 'underscore';
 import { Input, Output, Component, ChangeDetectorRef, HostListener, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GridProvider } from './grid.provider';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'grid',
@@ -73,7 +72,7 @@ import { isNullOrUndefined } from 'util';
             
               <div class="card-panel">
                 <div class="row">
-                  <div class="col s12 m12 l1" id="register">
+                  <div class="col s12 m12 l1" [ngStyle]="registerStyle" id="register">
                     <label>Mostrar</label>
                     <select name="register" class="browser-default" [(ngModel)]="provider.pageRequest.size" (ngModelChange)="getPage(0)">
                       <option value="5">5</option>
@@ -140,6 +139,8 @@ export class GridComponent {
   @Input('buttonSearchClass') buttonSearchClass;
 
   @Input('buttonSearchStyle') buttonSearchStyle;
+
+  @Input('registerStyle') registerStyle;
 
   private list:Array<any> = [];
 

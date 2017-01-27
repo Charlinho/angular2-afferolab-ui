@@ -4,7 +4,7 @@ import { _ } from 'underscore';
 @Component({
   selector: 'select-box',
   template: `<select id="{{ id }}" class="browser-default" [(ngModel)]="modelValue" (ngModelChange)="change($event)" [disabled]="disabledSelect">
-                <option *ngIf="showDefaultOption" [value]="null">Selecione...</option>
+                <option *ngIf="showDefaultOption" [value]="undefined">Selecione...</option>
                 <option *ngFor="let option of options" [value]="option[key]">{{ option[optionValue.toString()] }}</option>
               </select>`
 })
