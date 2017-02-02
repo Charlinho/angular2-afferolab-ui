@@ -172,14 +172,14 @@ export class GridComponent {
   remove(id: number): void {
     this.showLoad = true;
     this.provider.remove(id).subscribe(
-      () => {
-        this.loadData(() => this.provider.getData());
-        this.showLoad = false;
-      },
-      () => {
-        this.message = 'Erro ao remover registro.';
-        this.showLoad = false;
-      }
+        () => {
+          this.loadData(() => this.provider.getData(this.getPageAfterRemoveLastRegister()));
+          this.showLoad = false;
+        },
+        () => {
+          this.message = 'Erro ao remover registro.';
+          this.showLoad = false;
+        }
     );
   }
 
@@ -190,6 +190,15 @@ export class GridComponent {
 
   loadElements(): void {
     setTimeout(() => $('.modal-trigger').leanModal(), 0);
+  }
+
+  getPageAfterRemoveLastRegister(): any {
+    let page = -1;
+
+    if (this.list.length == 1) {
+      page = this.provider.pagination.currentPage - 1;
+    }
+    return page;
   }
 
   public loadData(dataLoader : ()=>Observable<Array<any>>) {
