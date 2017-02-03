@@ -41,7 +41,7 @@ import { GridProvider } from './grid.provider';
                 <tbody>
                   <tr *ngFor="let item of items">
                     <td *ngFor="let value of item.columns">                                               
-                        {{ value }}              
+                        <div style="max-width: 600px; word-wrap: break-word">{{ value }}</div>     
                     </td>
                      <td *ngIf="!provider.readOnly">
                         <a *ngIf="provider.actionEdit && provider.actionEdit.canShow()" [routerLink]="[provider.path, item.id]"><i class="material-icons action-button">mode_edit</i></a>
