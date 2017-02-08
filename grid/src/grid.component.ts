@@ -208,14 +208,16 @@ export class GridComponent {
         data => {
           this.list.length=0;
           data.forEach(values =>  {
-            let item = {columns:[]};
+            let item = values;
+            item.columns = [];
 
-            for(var key in values) {
+            let mapperValues = this.provider.mapper(values);
+            for(var key in mapperValues) {
               if (key === '_id') {
-                item.id = values[key];
+                item.id = mapperValues[key];
               } else {
-                item[this.buildKey(key)] = values[key];
-                item.columns.push(values[key]);
+                item[this.buildKey(key)] = mapperValues[key];
+                item.columns.push(mapperValues[key]);
               }
             }
             this.list.push(item);

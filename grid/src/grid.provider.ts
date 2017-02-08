@@ -117,9 +117,7 @@ export class GridProvider<MODEL> {
 
     return this.serverApi.list(this.params).map(data=> {
       this._pagination = new Pagination(data.numberOfElements, data.totalPages, data.totalElements, pageRequest.page);
-      return data.content.map((model)=>{
-        return this.mapper(model);
-      });
+      return data.content;
     });
   }
 
