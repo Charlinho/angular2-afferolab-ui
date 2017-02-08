@@ -48,6 +48,7 @@ import { GridProvider } from './grid.provider';
                         <confirm-button *ngIf="provider.actionRemove && provider.actionRemove.canShow()" (onConfirm)="remove($event)"
                                         [title]="modalMessage.title"
                                         [content]="modalMessage.content"
+                                        [checkToDelete]="provider"
                                         [data]="item.id">
                             <i class="material-icons action-button">delete</i>
                         </confirm-button>
